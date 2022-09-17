@@ -1,0 +1,10 @@
+language: generic 
+sudo: required
+service: 
+  - docker
+
+before_install:
+  - docker build -t carlosfn224/react-client -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true carlosfn224/react-client npm run test
