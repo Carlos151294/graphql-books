@@ -8,3 +8,17 @@ before_install:
 
 script:
   - docker run -e CI=true carlosfn224/react-client npm run test
+
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "graphql-books-client"
+    env: "Graphqlbooksclient-env"
+    bucket_name: "elasticbeanstalk-us-east-2-601670308014"
+    bucket_path: "graphql-books-client"
+    on: 
+      branch: main
+    # Stored in Travis env vars
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: "$AWS_SECRET_KEY"
+    
