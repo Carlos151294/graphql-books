@@ -1,11 +1,19 @@
 version: '3'
 services:
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3050:80"
+    depends_on:
+      - graphql-server
+      - react-client
   graphql-server:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
-    ports:
-      - "4001:4001"
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -13,8 +21,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
     volumes:
       - /app/node_modules
       - ./client:/app
