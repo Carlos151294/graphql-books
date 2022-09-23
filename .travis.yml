@@ -9,16 +9,27 @@ before_install:
 script:
   - docker run -e CI=true carlosfn224/react-client npm run test
 
-deploy:
-    provider: elasticbeanstalk
-    region: "us-east-2"
-    app: "graphql-books-client"
-    env: "Graphqlbooksclient-env"
-    bucket_name: "elasticbeanstalk-us-east-2-601670308014"
-    bucket_path: "graphql-books-client"
-    on: 
-      branch: main
-    # Stored in Travis env vars
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: "$AWS_SECRET_KEY"
+after_success:
+    - docker build -t carlosfn224/bookslist-nginx ./nginx
+    - docker build -t carlosfn224/bookslist-client ./client
+    - docker build -t carlosfn224/bookslist-server ./server
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    #Takes these images and push them to docker hub
+    - docker push carlosfn224/bookslist-nginx
+    - docker push carlosfn224/bookslist-client
+    - docker push carlosfn224/bookslist-server
+
+# deploy:
+    # provider: elasticbeanstalk
+    # region: "us-east-2"
+    # app: ""
+    # env: ""
+    # bucket_name: ""
+    # bucket_path: "" # it can be same as app key, 1rst time is auto created
+    # on: 
+    #   branch: main
+    # # Stored in Travis env vars
+    # access_key_id: $AWS_ACCESS_KEY
+    # secret_access_key: "$AWS_SECRET_KEY"
     
