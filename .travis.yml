@@ -20,16 +20,16 @@ after_success:
     - docker push carlosfn224/bookslist-client
     - docker push carlosfn224/bookslist-server
 
-# deploy:
-    # provider: elasticbeanstalk
-    # region: "us-east-2"
-    # app: ""
-    # env: ""
-    # bucket_name: ""
-    # bucket_path: "" # it can be same as app key, 1rst time is auto created
-    # on: 
-    #   branch: main
-    # # Stored in Travis env vars
-    # access_key_id: $AWS_ACCESS_KEY
-    # secret_access_key: "$AWS_SECRET_KEY"
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "graphql-booklist"
+    env: "Graphqlbooklist-env-1"
+    bucket_name: "elasticbeanstalk-us-east-2-601670308014"
+    bucket_path: "graphql-booklist" # it can be same as app key, 1rst time is auto created
+    on: 
+      branch: main
+    # Stored in Travis env vars
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: "$AWS_SECRET_KEY"
     

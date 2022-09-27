@@ -1,0 +1,33 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "carlosfn224/bookslist-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["server", "client"]
+    },
+    {
+      "name": "server",
+      "image": "carlosfn224/bookslist-server",
+      "hostname": "graphql-server",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "client",
+      "image": "carlosfn224/bookslist-client",
+      "hostname": "react-client",
+      "essential": false,
+      "memory": 128
+    }
+  ]
+}
