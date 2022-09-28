@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_BOOKS } from '../../graphql/queries'
+import { GET_BOOKS } from '../../graphql/queries';
+
+import BookDetails from '../BookDetails';
 
 function BookList() {
+  const [bookSelected, setBookSelected] = useState(null);
   const query = useQuery(GET_BOOKS);
   const { loading, error, data } = query;
 
@@ -14,9 +18,12 @@ function BookList() {
     <div>
       <ul className='book-list'>
         {books.map(({ id, name }) => (
-          <li key={id}>{name}</li>
+          <li key={id} onClick={() => setBookSelected(id)}>
+            {name}
+          </li>
         ))}
       </ul>
+      <BookDetails bookId={bookSelected} />
     </div>
   );
 }
