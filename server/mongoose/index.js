@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export async function mongooseConnect() {
   try {
     await mongoose.connect(
-      'mongodb+srv://carlos224:ZnMTCgRfXzRUOF7f@graphql-books.pkhhxnq.mongodb.net/?retryWrites=true&w=majority',
+      process.env.MONGODB_URL,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
