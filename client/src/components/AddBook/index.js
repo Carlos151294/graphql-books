@@ -1,19 +1,26 @@
 import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_AUTHORS } from '../../graphql/queries';
+import { ADD_BOOK } from '../../graphql/mutations';
 
 export default function AddBook() {
-  const { loading, error, data } = useQuery(GET_AUTHORS);
+  const {
+    loading: authorsLoading,
+    error: authorsError,
+    data: authorsData,
+  } = useQuery(GET_AUTHORS);
+  const [addBook, { loading: bookLoading, error: bookError, data: bookData }] =
+    useMutation(ADD_BOOK);
   const [author, setAuthor] = useState({ name: '', genre: '', authorId: '' });
 
-  if (error) return <p>Error :(</p>;
+  if (authorsError) return <p>Error :(</p>;
 
   const handleChange = (e) =>
     setAuthor({ ...author, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(author);
+    addBook({ variables: { ...author } });
   };
 
   return (
@@ -29,12 +36,12 @@ export default function AddBook() {
       <div className='field'>
         <label>Author:</label>
         <select name='authorId' onChange={handleChange}>
-          {loading ? (
+          {authorsLoading ? (
             <option disabled>Loading authors</option>
           ) : (
             <>
               <option>Select author</option>
-              {data.authors.map((author) => (
+              {authorsData.authors.map((author) => (
                 <option key={author.id} value={author.id}>
                   {author.name}
                 </option>
