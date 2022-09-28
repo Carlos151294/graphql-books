@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_AUTHORS } from '../../graphql/queries';
+import { GET_AUTHORS, GET_BOOKS } from '../../graphql/queries';
 import { ADD_BOOK } from '../../graphql/mutations';
 
 export default function AddBook() {
@@ -20,7 +20,10 @@ export default function AddBook() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addBook({ variables: { ...author } });
+    addBook({
+      variables: { ...author },
+      refetchQueries: [{ query: GET_BOOKS }],
+    });
   };
 
   return (
