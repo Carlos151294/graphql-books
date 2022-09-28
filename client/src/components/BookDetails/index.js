@@ -3,14 +3,18 @@ import { GET_BOOK } from '../../graphql/queries';
 
 export default function BookDetails({ bookId }) {
   const query = useQuery(GET_BOOK, { variables: { id: bookId } });
-  const { data } = query;
+  const { loading, data } = query;
 
-  if (data?.loading) {
-    return <div>Loading book details...</div>;
+  if (loading) {
+    return <div className='book-details'>Loading book details...</div>;
   }
 
   if (!data?.book) {
-    return <p>No book selected</p>;
+    return (
+      <div className='book-details'>
+        <h2>No book selected</h2>
+      </div>
+    );
   }
 
   const { book } = data;

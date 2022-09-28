@@ -53,7 +53,7 @@ export default function AddBook() {
           )}
         </select>
       </div>
-      <button type='submit'>Add</button>
+      <button type='submit'>+</button>
     </form>
   );
 }
